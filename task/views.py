@@ -12,7 +12,6 @@ def create_alumnos(request):
         carnet = request.POST.get('carnet')
         nombres = request.POST.get('nombres')
         apellidos = request.POST.get('apellidos')
-        edad = request.POST.get('edad')  # Obtener el valor de la edad desde el formulario
         correo_electronico = request.POST.get('correoElectronico')
         fecha_nacimiento = request.POST.get('fechaNacimiento')
 
@@ -21,7 +20,6 @@ def create_alumnos(request):
             carnet=carnet,
             nombres=nombres,
             apellidos=apellidos,
-            edad=edad,  # Pasar el valor de la edad al crear el objeto Alumno
             correo_electronico=correo_electronico,
             fecha_nacimiento=fecha_nacimiento
         )
