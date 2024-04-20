@@ -11,3 +11,8 @@ class Alumno(models.Model):
     def __str__(self):
         return f"{self.nombres} {self.apellidos}"
 
+class Pago(models.Model):
+    alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
+    numero_boleta = models.CharField(max_length=50)
+    codigo_banco = models.CharField(max_length=20)
+    fecha_pago = models.DateField()

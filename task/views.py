@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from .models import Alumno
 from .forms import AlumnoForm
-
+from .serializers import AlumnoSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 def list_alumnos(request):
     alumnos = Alumno.objects.all()
@@ -49,3 +53,37 @@ def edit_alumno(request, alumno_id):
 def lista_alumnos(request):
     alumnos = Alumno.objects.all()
     return render(request, 'lista_alumnos.html', {'alumnos': alumnos})
+
+
+
+# Vista para listar todos los alumnos (API)
+@api_view(['GET', 'POST'])
+def alumnos_list(request):
+    if request.method == 'GET':
+        alumnos = Alumno.objects.all()
+        serializer = AlumnoSerializer(alumnos, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = AlumnoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Vista para obtener, actualizar o eliminar un alumno específico (API)
+@api_view(['GET', 'PUT', 'DELETE'])
+def alumno_detail(request, pk):
+    alumno = get_object_or_404(Alumno, pk=pk)
+    if request.method == 'GET':
+        serializer = AlumnoSerializer(alumno)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = AlumnoSerializer(alumno, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        alumno.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    

@@ -23,4 +23,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('task/', include('task.urls')),  # Este es un ejemplo, asegúrate de que coincida con tu configuración
+    path('api/', include('task.api_urls')),  # URL para la API de tu aplicación task
 ] 
