@@ -45,3 +45,7 @@ def edit_alumno(request, alumno_id):
     else:
         form = AlumnoForm(instance=alumno)
         return render(request, 'edit_alumno.html', {'form': form, 'alumno': alumno})
+
+def lista_alumnos(request):
+    alumnos = Alumno.objects.all()
+    return render(request, 'lista_alumnos.html', {'alumnos': alumnos})

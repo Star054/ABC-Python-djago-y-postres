@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %}  <!-- Agregado para cargar los archivos estáticos -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +12,9 @@
 <body>
     <div class="container">
         <h1>Registro de Alumnos</h1>
+        <!-- Botón para redirigir a la página de lista de alumnos -->
+        <a href="{% url 'lista_alumnos' %}" class="btn btn-primary">Lista de Alumnos</a>
+        
         <form action="/task/new/" method="POST"> <!-- Action y method serán definidos según tu lógica de manejo de formularios en Django -->
             {% csrf_token %}
             <div class="mb-3">
@@ -36,42 +39,6 @@
             </div>
             <button type="submit" class="btn btn-primary">Registrar</button>
         </form>
-    </div>
-
-    <div class="container mt-4">
-        <h2>Lista de Alumnos</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Carnet</th>
-                    <th scope="col">Nombres</th>
-                    <th scope="col">Apellidos</th>
-                    <th scope="col">Edad</th>
-                    <th scope="col">Correo Electrónico</th>
-                    <th scope="col">Fecha de Nacimiento</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for alumno in alumnos %}
-                <tr>
-                    <td>{{ alumno.carnet }}</td>
-                    <td>{{ alumno.nombres }}</td>
-                    <td>{{ alumno.apellidos }}</td>
-                    <td>{{ alumno.edad }}</td>
-                    <td>{{ alumno.correo_electronico }}</td>
-                    <td>{{ alumno.fecha_nacimiento }}</td>
-                    <td>
-                        <a href="{% url 'edit_alumno' alumno.id %}" class="btn btn-primary">Editar</a>
-                        <form action="{% url 'delete_alumno' alumno.id %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
 </body>
 </html>
